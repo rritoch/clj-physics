@@ -74,7 +74,7 @@
               (> (.getHeight image this) 150)
               (int (* (.getWidth image this) (/ (double 155) (.getHeight image this))))
               :else
-              (int (.getWidth image this))
+              (min 1 (int (.getWidth image this)))
       )
       height (cond 
               (= (.getWidth image this) (.getHeight image this))
@@ -88,7 +88,12 @@
       )
       
      ]
-    (reset! (.state this) (assoc (deref (.state this)) :image (.getScaledInstance image width height java.awt.Image/SCALE_DEFAULT)))
+    (try
+      (reset! (.state this) (assoc (deref (.state this)) :image (.getScaledInstance image width height java.awt.Image/SCALE_DEFAULT)))
+      (catch Throwable t
+        (reset! (.state this) (assoc (deref (.state this)) :image nil))
+      )
+    )
   )
 )
 
