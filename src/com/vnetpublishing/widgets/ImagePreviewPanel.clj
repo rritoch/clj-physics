@@ -74,7 +74,7 @@
               (> (.getHeight image this) 150)
               (int (* (.getWidth image this) (/ (double 155) (.getHeight image this))))
               :else
-              (min 1 (int (.getWidth image this)))
+              (max 1 (int (.getWidth image this)))
       )
       height (cond 
               (= (.getWidth image this) (.getHeight image this))
